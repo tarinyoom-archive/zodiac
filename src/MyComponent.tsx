@@ -1,24 +1,25 @@
 import getCompletion from './generateService';
-
-async function modifyText() {
-	const prefix = document.getElementById("prefix");
-	const completion = document.getElementById("completion");
-console.log("A");
-	if (prefix && completion) {
-		console.log("B");
-		const replacementText = await getCompletion(prefix.textContent ? prefix.textContent : "");
-		completion.textContent = replacementText;
-	}
-}
+import * as React from "react";
+import Button from "@mui/material/Button";
+import { useState } from "react";
 
 function MyComponent() {
-	return (
-	<>
-		<button onClick={modifyText}>Click me to complete the phrase below.</button>
-		<p id="prefix">I really need to</p>
-		<p id="completion"></p>
-	</>
-	);
+  const [text, setText] = useState(" ");
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        onClick={() => {
+          setText(await getCompletion("I really need to));
+        }}
+      >
+        Click me to complete the phrase below.
+      </Button>
+      <p id="phrase">"I really need to... {text}"</p>
+      <p> </p>
+    </>
+  );
 }
 
 export default MyComponent;
