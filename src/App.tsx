@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import MyComponent from './MyComponent';
+import Horoscope from './Horoscope';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> to change this page!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Coding is Gay
-        </a>
-        <MyComponent></MyComponent>
+        <h1>zo:diac</h1>
+        <h4>Let an AI help guide your day.</h4>
       </header>
+      <Horoscope/>
+      <footer style={{color: "gray", position: "fixed", bottom: 0}}>
+          Developed by Adam Reynolds and Aditya Tuladhar. Powered by <a href="https://cohere.ai/">co:here</a>.
+      </footer>
     </div>
   );
 }
