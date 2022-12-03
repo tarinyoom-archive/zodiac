@@ -17,7 +17,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Coding is Gay
         </a>
         <MyComponent></MyComponent>
       </header>
