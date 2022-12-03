@@ -1,9 +1,20 @@
+import getCompletion from './generateService';
+
+async function modifyText() {
+	const prefix = document.getElementById("prefix");
+	const completion = document.getElementById("completion");
+
+	if (prefix && completion) {
+		completion.textContent = await getCompletion(prefix.textContent ? prefix.textContent : "");
+	}
+}
 
 function MyComponent() {
 	return (
 	<>
-		<button>Click me to complete the phrase below.</button>
-		<p id="phrase">"I really need to..."</p>
+		<button onClick={modifyText}>Click me to complete the phrase below.</button>
+		<p id="prefix">I really need to</p>
+		<p id="completion"></p>
 	</>
 	);
 }
