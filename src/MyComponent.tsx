@@ -10,8 +10,8 @@ function MyComponent() {
     <>
       <Button
         variant="contained"
-        onClick={() => {
-          setText(await getCompletion("I really need to));
+        onClick={async () => {
+          setText(await getCompletion("I really need to"));
         }}
       >
         Click me to complete the phrase below.
