@@ -34,23 +34,35 @@ export function isValidSign(sign: string) {
 	return sign in examples;
 }
 
+function currentDate()
+{
+	const current = new Date();
+	const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+	return date;
+}
 export async function setHoroscope(
 		sign: string,
 		signTextId: string,
 		horoscopeTextId: string) {
 
+		
+
 	const signText = document.getElementById(signTextId);
 	const horoscope = document.getElementById(horoscopeTextId);
+	const date = new Date().toLocaleDateString('en-us', {year:"numeric", day:"numeric", month:"short"}) // "Jul 2021 Friday";
+  	
+	//`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 
 	if (horoscope) {
 		horoscope.textContent = await buildHoroscope(sign).then((horoscope: string) => {
 			if (signText) {
-				signText.textContent = `${sign}. <TODAY'S DATE here>`;
+				signText.textContent = `${sign}. ${date}`;
 			}
 			return horoscope;
 		});
 	}
 }
+
 
 export function showDiv(divId: string) {
 	const div = document.getElementById(divId);
