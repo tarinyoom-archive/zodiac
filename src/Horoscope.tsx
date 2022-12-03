@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
-import { FormControl, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import './Horoscope.css';
 import { isValidSign, setHoroscope, showDiv } from './Controller';
 
@@ -12,7 +12,6 @@ function MyComponent() {
   return (
     <>
       <div style={{paddingTop: "30px", paddingBottom: "30px"}}>
-        <FormControl style={{margin: "auto", color: "white"}}>
         <TextField
             color="secondary"
             helperText="Enter your name"
@@ -28,7 +27,6 @@ function MyComponent() {
               setUserSign((e as any).target.value);
             }}
           />
-        </FormControl>
       </div>
       <LoadingButton
         loading={loading}
