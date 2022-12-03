@@ -1,3 +1,4 @@
+import getCompletion from './generateService';
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { useState } from "react";
@@ -9,8 +10,8 @@ function MyComponent() {
     <>
       <Button
         variant="contained"
-        onClick={() => {
-          setText("eat some food");
+        onClick={async () => {
+          setText(await getCompletion("I really need to"));
         }}
       >
         Click me to complete the phrase below.
