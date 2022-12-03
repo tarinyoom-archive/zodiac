@@ -3,9 +3,11 @@ import getCompletion from './generateService';
 async function modifyText() {
 	const prefix = document.getElementById("prefix");
 	const completion = document.getElementById("completion");
-
+console.log("A");
 	if (prefix && completion) {
-		completion.textContent = await getCompletion(prefix.textContent ? prefix.textContent : "");
+		console.log("B");
+		const replacementText = await getCompletion(prefix.textContent ? prefix.textContent : "");
+		completion.textContent = replacementText;
 	}
 }
 
