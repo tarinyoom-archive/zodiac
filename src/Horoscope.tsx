@@ -1,32 +1,33 @@
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
-import { FormControl,TextField, Select, MenuItem } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import './Horoscope.css';
-import { setHoroscope, showDiv } from './Controller';
+import { isValidSign, setHoroscope, showDiv } from './Controller';
 
 function MyComponent() {
 
   const [loading, setLoading] = useState(false);
+  const [userSign, setUserSign] = useState("");
 
   return (
     <>
       <div style={{paddingTop: "30px", paddingBottom: "30px"}}>
         <FormControl style={{margin: "auto", color: "white"}}>
         <TextField
+            color="secondary"
             helperText="Enter your name"
             id="username"
             label="Name"
           />
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={3}
-            label="Age"
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+        <TextField
+            color="secondary"
+            helperText="Enter your sign: Aries, Taurus, Gemini, etc."
+            id="sign"
+            label="Sign"
+            onChange={(e: object) => {
+              setUserSign((e as any).target.value);
+            }}
+          />
         </FormControl>
       </div>
       <LoadingButton
@@ -34,20 +35,20 @@ function MyComponent() {
         id="mainButton"
         variant="contained"
         onClick={async () => {
-          setLoading(true);
-          setHoroscope("aries", "signDescriptionText", "horoscopeText").then(() => {
-            setLoading(false);
-            showDiv("results")
-          });
+          if (isValidSign(userSign)) {
+            setLoading(true);
+            setHoroscope(userSign, "horoscopeHeader", "horoscopeText").then(() => {
+              setLoading(false);
+              showDiv("results")
+            });  
+          }
         }}
       >
-        Consult the AI 
+        Consult 
       </LoadingButton>
       <div id="results" style={{display:"none"}}>
-        <h4>Your Sign</h4>
-        <p id="signDescriptionText">Text here</p>
-        <h4>Your Current Horoscope</h4>
-        <p id="horoscopeText">Text here</p>
+        <h4 id="horoscopeHeader">Sign here</h4>
+        <p id="horoscopeText">Horoscope here</p>
       </div>
     </>
   );

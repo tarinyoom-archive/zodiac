@@ -1,6 +1,6 @@
 const BACKEND_ENDPOINT = "https://rrb-generate.tarinyoom.io";
 
-async function getCompletion(prefix: string): Promise<string> {
+export async function getCompletion(prefix: string): Promise<string> {
 	
 	const formData = new FormData();
 	formData.set("prefix", prefix);
@@ -18,4 +18,17 @@ async function getCompletion(prefix: string): Promise<string> {
 	});
 }
 
-export default getCompletion;
+export async function getCompletions(prefixes: string[]): Promise<string[]> {
+
+	const completions = [];
+	let prePrefix = ""; // prefixes + completions to be placed before the current query
+	for (const prefix of prefixes) {
+
+		const completion = await getCompletion(prePrefix + prefix);
+		completions.push(completion);
+		prePrefix += prefix + completion;
+
+	}
+
+	return completions;
+}
