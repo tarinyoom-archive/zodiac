@@ -13,7 +13,6 @@ export async function getCompletion(prefix: string): Promise<string> {
 		method: "post",
 	}).then(async (response) => {
 		const json = await response.json();
-		console.log(json.text);
 		return json.text;
 	});
 }
