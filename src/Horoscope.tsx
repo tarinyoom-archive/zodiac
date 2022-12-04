@@ -4,7 +4,9 @@ import { TextField } from "@mui/material";
 import "./Horoscope.css";
 import {
   findZodiacSign,
-  setHoroscope,
+  getHoroscope,
+  getHoroscopeAddition,
+  getHoroscopeHeader,
 } from "./Controller";
 import { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,30 +16,55 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 function Horoscope() {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [mainButtonDisabled, setMainButtonDisabled] = useState(true);
+  const [showContinue, setShowContinue] = useState(false);
+  const [showAltPrompt, setShowAltPrompt] = useState(false);
 
   // name and date
   const [name, setName] = useState<string>("");
   const [date, setDate] = useState<Dayjs | null>(null);
   const [userBirthDay, setUserBirthDay] = useState<number | null>(null);
   const [userBirthMonth, setUserBirthMonth] = useState<number | null>(null);
+  
+  const [topic, setTopic] = useState<string>("");
+
+  const [initialized, setInitialized] = useState<boolean>(false);
+  const [prelude, setPrelude] = useState<string>("");
+  const [horoscope, setHoroscope] = useState<string>("");
+
+  const today = new Date().toLocaleDateString('en-us', {year:"numeric", day:"numeric", month:"short"}) // "Jul 2021 Friday";
+  const [subtitle, setSubtitle] = useState<string>(`The date is ${today}. To consult zo:diac about today, provide your name and birth date.`);
 
   useEffect(() => {
-    if (!name || name.length == 0 || !date || date.toString() === "Invalid Date") {
-      setButtonDisabled(true);
+    if (!name || name.length === 0 || !date || date.toString() === "Invalid Date") {
+      setMainButtonDisabled(true);
     } else {
-      setButtonDisabled(false);
+      setMainButtonDisabled(false);
     }
   }, [name, date]);
+
 
   return (
     <>
       <div>
-        <div className=".flex-row">
-          <TextField
+        <h4 id="subtitle" style={{paddingBottom:"20px"}}>{subtitle}</h4>
+        <div className=".flex-row" hidden={!showAltPrompt}>
+        <TextField
+            id="topic"
+            label="Topic"
+            style={{paddingRight: '10px'}}
+            autoComplete="off"
+            onChange={(e) => {
+              setTopic(e.target.value);
+            }}
+          />
+        </div>
+        <div className=".flex-row" hidden={showAltPrompt}>
+        <TextField
             id="username"
             label="Your Name"
             style={{paddingRight: '10px'}}
+            autoComplete="off"
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -58,30 +85,58 @@ function Horoscope() {
         <LoadingButton
           loading={loading}
           id="mainButton"
-          disabled={buttonDisabled || loaded}
+          disabled={mainButtonDisabled}
           variant="contained"
-          style={{margin:'40px'}}
+          style={{marginTop:'20px'}}
           onClick={async () => {
-            if (userBirthDay != null && userBirthMonth != null) {
-              const sign = findZodiacSign(userBirthDay, userBirthMonth);
+            if (initialized && userBirthDay && userBirthMonth) {
               setLoading(true);
-              setTimeout(() => {
+              const sign = findZodiacSign(userBirthDay, userBirthMonth);
+              getHoroscopeAddition(horoscope, topic, sign).then((horoscope: string) => {
+                setPrelude(`Regarding ${topic}, your horoscope is as follows:`);
+                setHoroscope(horoscope);
                 setLoading(false);
-              }, 15000);
-              setHoroscope(sign, "horoscopeHeader", "horoscopeText").then(
-                () => {
+                setMainButtonDisabled(true);
+                setShowContinue(true);
+              })
+            } else {
+              if (userBirthDay != null && userBirthMonth != null) {
+                setLoading(true);
+                const sign = findZodiacSign(userBirthDay, userBirthMonth);
+                const prelude = getHoroscopeHeader(name, sign);
+                getHoroscope(sign).then((horoscope: string) => {
+                  setPrelude(prelude);
+                  setHoroscope(horoscope);
                   setLoading(false);
                   setLoaded(true);
-                }
-            );}
-          }}
+                  setInitialized(true);
+                  setMainButtonDisabled(true);
+                  setShowContinue(true);
+                })  
+              }
+            }
+        }}
         >
           Consult zo:diac
         </LoadingButton>
       </div>
       <div id="results" hidden={!loaded}>
-        <h4 id="horoscopeHeader">Sign here</h4>
-        <p id="horoscopeText">Horoscope here</p>
+        <h4 id="horoscopeHeader" className="Response">{prelude}</h4>
+				<p id="horoscopeText" className="Response">{horoscope}</p>
+        <div hidden={!showContinue}>
+        <LoadingButton
+          variant="contained"
+          id="continueButton"
+          style={{margin:'20px'}}
+          onClick={() => {
+            setShowAltPrompt(true);
+            setShowContinue(false);
+            setMainButtonDisabled(false);
+            setSubtitle("What topic would you like to explore? (romance, career, etc.)");
+          }}
+            > Continue Exploring
+        </LoadingButton>
+        </div>
       </div>
     </>
   );

@@ -1,13 +1,9 @@
 import { getCompletion } from "./BackendSurface";
 import examples from "./examples.json";
+import descriptions from "./signDescriptions.json";
 
-async function buildHoroscope(sign: string): Promise<string> {
-
-	const prefix = (examples as any)[sign].join("\n--\n") + "\n--\n";
-	const completion = await getCompletion(prefix);
-
-	// clean horoscope
-	const fragments = completion.split("\n");
+function cleanCompletion(dirtyCompletion: string): string {
+	const fragments = dirtyCompletion.split("\n");
 	const longestFragment = fragments.reduce((prev: string, curr: string) => curr.length < prev.length ? prev : curr, "");
 	let start, end;
 	for (start = 0; start < longestFragment.length; start++) {
@@ -111,7 +107,7 @@ export function findZodiacSign(day: number, month: number):string
         }
                
         else if (month === 10){
-            if (day < 22)
+            if (day < 23)
             astro_sign = "Scorpio";
             else
             astro_sign = "Sagittarius";
@@ -122,25 +118,54 @@ export function findZodiacSign(day: number, month: number):string
     return astro_sign;
 }
 
-export function isValidSign(sign: string) {
-	return sign in examples;
+function capitalize(name: string) {
+    return name.split(" ")
+               .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+               .join(" ");
 }
 
-export async function setHoroscope(
-		sign: string,
-		signTextId: string,
-		horoscopeTextId: string) {
+export function getHoroscopeHeader(name: string, sign: string): string {
+    return `You are a ${sign}, ${capitalize(name)}. ${sign in descriptions ? (descriptions as any)[sign] : ""}`;
+}
 
-	const signText = document.getElementById(signTextId);
-	const horoscope = document.getElementById(horoscopeTextId);
-	const date = new Date().toLocaleDateString('en-us', {year:"numeric", day:"numeric", month:"short"}) // "Jul 2021 Friday";
-  	
-	if (horoscope) {
-		horoscope.textContent = await buildHoroscope(sign).then((horoscope: string) => {
-			if (signText) {
-				signText.textContent = `${sign}. ${date}`;
-			}
-			return horoscope;
-		});
-	}
+export async function getHoroscope(
+		sign: string): Promise<string> {
+
+	if (sign in examples) {
+        const prefix = (examples as any)[sign].join("\n--\n") + "\n--\n";
+        const completion = await getCompletion(prefix);
+		return cleanCompletion(completion);
+	} else {
+        return "";
+    }
+}
+
+export async function getHoroscopeAddition(
+        prePrefix: string, topic: string, sign: string): Promise<string> {
+
+    let numPeriods = Array.from(prePrefix).reduce((acc, c) => c === "." ? acc + 1 : acc, 0);
+
+    if (sign in examples) {
+        let start;
+        for (start = prePrefix.length - 1; start >= 0; start--) {
+            if (prePrefix.charAt(start) === ".") {
+                numPeriods--;
+                if (numPeriods === 0) {
+                    start++
+                    while (prePrefix.charAt(start) === " ") {
+                        start++;
+                    }
+                    break;
+                }
+            }   
+        }
+    
+        const prefix = `${prePrefix.substring(start)} Regarding your ${topic}, the following can be said: `;
+        const completion = await getCompletion(prefix);
+        return cleanCompletion(completion);
+    
+    } else {
+        return "Error trying to access your sign.";
+    }
+
 }
