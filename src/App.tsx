@@ -14,9 +14,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
-
-  const date = new Date().toLocaleDateString('en-us', {year:"numeric", day:"numeric", month:"short"}) // "Jul 2021 Friday";
-
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -26,7 +24,6 @@ function App() {
         </header>
         <header className="App-header">
           <h1>zo:diac</h1>
-          <h4 id="subtitle" style={{paddingBottom:"20px"}}>The date is {date}. To consult zo:diac about today, provide your name and birth date. </h4>
         </header>
         <Horoscope/>
         

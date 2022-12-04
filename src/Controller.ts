@@ -141,7 +141,7 @@ export async function getHoroscope(
 }
 
 export async function getHoroscopeAddition(
-        prePrefix: string, topic: string) {
+        prePrefix: string, topic: string, sign: string) {
 
     let start;
     for (start = prePrefix.length - 1; start >= 0; start--) {
