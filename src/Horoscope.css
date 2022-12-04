@@ -2,12 +2,13 @@ div {
 	color: #ffffff;
 }
 
-input[type=text] {
-	background-color: #999898;
+.flex-row {
+	display: flex;
+	gap: 10px;
 }
 
-input[type=helperText] {
-	color: #999898;
+input[type] {
+	background-color: #999898;
 }
 
 p {
