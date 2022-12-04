@@ -1,14 +1,5 @@
-div {
-	color: #ffffff;
-}
-
 .flex-row {
-	display: flex;
-	gap: 10px;
-}
-
-input[type] {
-	background-color: #999898;
+	justify-content: space-between;
 }
 
 p {

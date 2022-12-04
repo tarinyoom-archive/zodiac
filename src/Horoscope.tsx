@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-function MyComponent() {
+function Horoscope() {
   const [loading, setLoading] = useState(false);
   const [date] = useState<Dayjs | null>(null);
   const [userBirthDay, setUserBirthDay] = useState<number | null>(null);
@@ -22,16 +22,15 @@ function MyComponent() {
     <>
       <div className=".flex-row">
         <TextField
-          color="secondary"
-          //helperText="Enter your name"
           id="username"
-          label="Name"
+          label="Your Name"
+          style={{paddingRight: '10px'}}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="Basic example"
+            label="Your Birth Date"
             value={date}
-            onChange={(newValue) => {
+            onChange={(newValue: Dayjs | null) => {
               setUserBirthDay(newValue ? newValue.date() : null);
               setUserBirthMonth(newValue ? newValue.month() : null);
             }}
@@ -43,14 +42,14 @@ function MyComponent() {
         loading={loading}
         id="mainButton"
         variant="contained"
-        
+        style={{margin:'40px'}}
         onClick={async () => {
           if (userBirthDay != null && userBirthMonth != null) {
             const sign = findZodiacSign(userBirthDay, userBirthMonth);
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-            }, 5000);
+            }, 15000);
             setHoroscope(sign, "horoscopeHeader", "horoscopeText").then(
               () => {
                 setLoading(false);
@@ -69,4 +68,4 @@ function MyComponent() {
   );
 }
 
-export default MyComponent;
+export default Horoscope;
