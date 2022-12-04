@@ -1,14 +1,14 @@
 {
-	"Aries": "You are <Aries description>",
-	"Taurus": "You are <Taurus description>",
-	"Gemini": "You are <Gemini description>",
-	"Cancer": "You are <Cancer description>",
-	"Leo": "You are <Leo description>",
-	"Virgo": "You are <Virgo description>",
-	"Libra": "You are <Libra description>",
-	"Scorpio": "You are <Scorpio description>",
-	"Sagittarius": "You are <Sagittarius description>",
-	"Capricorn": "You are <Capricorn description>",
-	"Aquarius": "You are <Aquarius description>",
-	"Pisces": "You are <Pisces description>"
+    "Aries": "You are amibitious, impatient and often find yourself taking initiative, never shying away from competition or a challenging situation.",
+    "Taurus": "You are grounded and considered reliable by those around you. You value honesty and persistance and possess a taste for finer things in life.",
+    "Gemini": "You are a fast moving target, buzzing from one social circle to the next, known for your creativity and sharp sense of wit.",
+    "Cancer": "Your sense of purpose if fufilled by nuturing those around you. Cancers often hide their grief, contempt and anger through their approachable exterior.",
+    "Leo": "You are as charismatic as you are impulsive. Not afraid to share your accomplishments, Leos mask their vulnerability with a radiant personality. You're unable to accept anything less than what you deserve.",
+    "Virgo": "Your thoughtful habits leave lasting impressions. Though you possess a creative aptitude, you equally are meticulous in managing responsibilities.",
+    "Libra": "You are a wonderful listener and have a disarming sense of charm. You often have second thoughts and fear commitment in all facets of life.",
+  	"Scorpio": "",
+	  "Sagittarius": "",
+    "Capricorn": "",
+    "Aquarius": "",
+    "Pisces": ""
 }
