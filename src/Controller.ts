@@ -3,7 +3,6 @@ import examples from "./examples.json";
 
 async function buildHoroscope(sign: string): Promise<string> {
 
-	console.log("building for " + sign);
 	const prefix = (examples as any)[sign].join("\n--\n") + "\n--\n";
 	const completion = await getCompletion(prefix);
 
@@ -132,8 +131,6 @@ export async function setHoroscope(
 		signTextId: string,
 		horoscopeTextId: string) {
 
-	console.log("sign is " + sign)
-
 	const signText = document.getElementById(signTextId);
 	const horoscope = document.getElementById(horoscopeTextId);
 	const date = new Date().toLocaleDateString('en-us', {year:"numeric", day:"numeric", month:"short"}) // "Jul 2021 Friday";
@@ -145,13 +142,5 @@ export async function setHoroscope(
 			}
 			return horoscope;
 		});
-	}
-}
-
-
-export function showDiv(divId: string) {
-	const div = document.getElementById(divId);
-	if (div) {
-		div.style.display = "inline";
 	}
 }
