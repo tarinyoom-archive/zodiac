@@ -2,6 +2,15 @@ div {
 	color: #ffffff;
 }
 
+.flex-row {
+	display: flex;
+	gap: 10px;
+}
+
+input[type] {
+	background-color: #999898;
+}
+
 p {
 	margin-left: 10%;
 	margin-right: 10%;
