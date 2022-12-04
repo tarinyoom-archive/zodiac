@@ -141,17 +141,31 @@ export async function getHoroscope(
 }
 
 export async function getHoroscopeAddition(
-        prePrefix: string, topic: string, sign: string) {
+        prePrefix: string, topic: string, sign: string): Promise<string> {
 
-    let start;
-    for (start = prePrefix.length - 1; start >= 0; start--) {
-        if (prePrefix.charAt(start) === ".") {
-            break;
-        }   
+    let numPeriods = Array.from(prePrefix).reduce((acc, c) => c === "." ? acc + 1 : acc, 0);
+
+    if (sign in examples) {
+        let start;
+        for (start = prePrefix.length - 1; start >= 0; start--) {
+            if (prePrefix.charAt(start) === ".") {
+                numPeriods--;
+                if (numPeriods === 0) {
+                    start++
+                    while (prePrefix.charAt(start) === " ") {
+                        start++;
+                    }
+                    break;
+                }
+            }   
+        }
+    
+        const prefix = `${prePrefix.substring(start)} Regarding your ${topic}, the following can be said: `;
+        const completion = await getCompletion(prefix);
+        return cleanCompletion(completion);
+    
+    } else {
+        return "Error trying to access your sign.";
     }
 
-    const prefix = `${prePrefix.substring(start + 1)} Regarding your ${topic}, the following can be said: `;
-    const completion = await getCompletion(prefix);
-    return cleanCompletion(completion);
-
-    }
+}
