@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 import { getCompletion } from "./BackendSurface";
 import examples from "./examples.json";
 
@@ -31,18 +30,11 @@ async function buildHoroscope(sign: string): Promise<string> {
 	return trimmed;
 }
 
-//export function findZodiacSign(userBirthMonth: number, userBirthDay: number):string
-export function findZodiacSign(userBirthDate: Date):string
+export function findZodiacSign(day: number, month: number):string
 {
 	var astro_sign:string;
 
-	//const month:number = userBirthMonth;
-	//const day:number = userBirthDay;
-	
-	const month:number = userBirthDate.getMonth();
-	const day:number = userBirthDate.getDay();
-
-	if (month == 12){
+	if (month === 11){
                
             if (day < 22)
             astro_sign = "Sagittarius";
@@ -50,76 +42,76 @@ export function findZodiacSign(userBirthDate: Date):string
             astro_sign ="Capricorn";
         }
                
-        else if (month == 1){
+        else if (month === 0){
             if (day < 20)
             astro_sign = "Capricorn";
             else
             astro_sign = "Aquarius";
         }
                
-        else if (month == 2){
+        else if (month === 1){
             if (day < 19)
             astro_sign = "Aquarius";
             else
             astro_sign = "Pisces";
         }
                
-        else if(month == 3){
+        else if(month === 2){
             if (day < 21)
             astro_sign = "Pisces";
             else
             astro_sign = "Aries";
         }
-        else if (month == 4){
+        else if (month === 3){
             if (day < 20)
             astro_sign = "Aries";
             else
             astro_sign = "Taurus";
         }
                
-        else if (month == 5){
+        else if (month === 4){
             if (day < 21)
             astro_sign = "Taurus";
             else
             astro_sign = "Gemini";
         }
                
-        else if( month == 6){
+        else if( month === 5){
             if (day < 21)
             astro_sign = "Gemini";
             else
             astro_sign = "Cancer";
         }
                
-        else if (month == 7){
+        else if (month === 6){
             if (day < 23)
             astro_sign = "Cancer";
             else
             astro_sign = "Leo";
         }
                
-        else if( month == 8){
+        else if( month === 7){
             if (day < 23)
             astro_sign = "Leo";
             else
             astro_sign = "Virgo";
         }
                
-        else if (month == 9){
+        else if (month === 8){
             if (day < 23)
             astro_sign = "Virgo";
             else
             astro_sign = "Libra";
         }
                
-        else if (month == 10){
+        else if (month === 9){
             if (day < 23)
             astro_sign = "Libra";
             else
             astro_sign = "Scorpio";
         }
                
-        else if (month == 11){
+        else if (month === 10){
             if (day < 22)
             astro_sign = "Scorpio";
             else
@@ -135,16 +127,12 @@ export function isValidSign(sign: string) {
 	return sign in examples;
 }
 
-function currentDate()
-{
-	const current = new Date();
-	const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-	return date;
-}
 export async function setHoroscope(
 		sign: string,
 		signTextId: string,
 		horoscopeTextId: string) {
+
+	console.log("sign is " + sign)
 
 	const signText = document.getElementById(signTextId);
 	const horoscope = document.getElementById(horoscopeTextId);

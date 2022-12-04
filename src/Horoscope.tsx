@@ -3,18 +3,20 @@ import { useState } from "react";
 import { TextField } from "@mui/material";
 import "./Horoscope.css";
 import {
-  isValidSign,
   findZodiacSign,
   setHoroscope,
   showDiv,
 } from "./Controller";
+import { Dayjs } from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function MyComponent() {
   const [loading, setLoading] = useState(false);
-  const [userSign, setUserSign] = useState("");
-  const [userBirthDate, setuserBirthDate] = useState<Date|null>(null);
-  //const [userBirthMonth, setuserBirthMonth] = useState(-1);
-  //const [userBirthDay, setuserBirthDay] = useState(-1);
+  const [date] = useState<Dayjs | null>(null);
+  const [userBirthDay, setUserBirthDay] = useState<number | null>(null);
+  const [userBirthMonth, setUserBirthMonth] = useState<number | null>(null);
 
   return (
     <>
@@ -25,25 +27,17 @@ function MyComponent() {
           id="username"
           label="Name"
         />
-        <TextField
-          id="date"
-          label="Date & Time of Birth"
-          type="date"
-          defaultValue=""
-          sx={{ width: 250 }}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(e:any) => {
-            //console.log(new Date(e.target.value));
-            //setuserBirthMonth(new Date (e.target.value as Date).getMonth());
-            //setuserBirthDay(new Date (e.target.value as Date).getDay());
-            //setuserBirthDate(new Date(e.target.value));
-            //console.log(new Date(e.target.value));
-            console.log(e.target.value);
-          }}
-          
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Basic example"
+            value={date}
+            onChange={(newValue) => {
+              setUserBirthDay(newValue ? newValue.date() : null);
+              setUserBirthMonth(newValue ? newValue.month() : null);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </div>
       <LoadingButton
         loading={loading}
@@ -51,14 +45,17 @@ function MyComponent() {
         variant="contained"
         
         onClick={async () => {
-          if (userBirthDate) {
-            setUserSign(findZodiacSign(userBirthDate));
-          setLoading(true);
-          setHoroscope(userSign, "horoscopeHeader", "horoscopeText").then(
-            () => {
+          if (userBirthDay != null && userBirthMonth != null) {
+            const sign = findZodiacSign(userBirthDay, userBirthMonth);
+            setLoading(true);
+            setTimeout(() => {
               setLoading(false);
-              showDiv("results");
-            }
+            }, 5000);
+            setHoroscope(sign, "horoscopeHeader", "horoscopeText").then(
+              () => {
+                setLoading(false);
+                showDiv("results");
+              }
           );}
         }}
       >
