@@ -1,8 +1,8 @@
 # zo:diac
 
-zo:diac is a web app created for the [https://lablab.ai/event/generative-ai-hackathon](co:here Generative AI Hackathon). We use co:here's "/generate" endpoint to create individualized horoscopes for users. Upon receiving their horoscope, users can continue to query for additional guidance by providing topics.
+zo:diac is a web app created for the [co:here Generative AI Hackathon](https://lablab.ai/event/generative-ai-hackathon). We use co:here's "/generate" endpoint to create individualized horoscopes for users. Upon receiving their horoscope, users can continue to query for additional guidance by providing topics.
 
-You can try out zo:diac [https://zodiac.tarinyoom.io/](here). 
+You can try out zo:diac [here](https://zodiac.tarinyoom.io/). 
 
 ## Technologies Used
 
