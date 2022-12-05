@@ -91,7 +91,7 @@ function Horoscope() {
           variant="contained"
           style={{marginTop:'20px'}}
           onClick={async () => {
-            if (initialized && userBirthDay && userBirthMonth) {
+            if (initialized && userBirthDay != null && userBirthMonth != null) {
               setLoading(true);
               const sign = findZodiacSign(userBirthDay, userBirthMonth);
               getHoroscopeAddition(horoscope, topic, sign).then((horoscope: string) => {
