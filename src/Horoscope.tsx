@@ -36,12 +36,20 @@ function Horoscope() {
   const [subtitle, setSubtitle] = useState<string>(`The date is ${today}. To consult zo:diac about today, provide your name and birth date.`);
 
   useEffect(() => {
-    if (!name || name.length === 0 || !date || date.toString() === "Invalid Date") {
-      setMainButtonDisabled(true);
+    if (!initialized) {
+      if (!name || name.length === 0 || !date || date.toString() === "Invalid Date" || showContinue) {
+        setMainButtonDisabled(true);
+      } else {
+        setMainButtonDisabled(false);
+      }  
     } else {
-      setMainButtonDisabled(false);
+      if (topic.length === 0 || showContinue) {
+        setMainButtonDisabled(true);
+      } else {
+        setMainButtonDisabled(false);
+      }
     }
-  }, [name, date]);
+  }, [name, date, topic, initialized, showContinue]);
 
 
   return (
