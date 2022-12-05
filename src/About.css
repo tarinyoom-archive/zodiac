@@ -1,18 +1,17 @@
-.flex-row {
-	justify-content: space-between;
-}
-
 p {
 	margin-left: 10%;
 	margin-right: 10%;
+	text-align: left;
 }
 
 h4 {
 	margin-left: 10%;
 	margin-right: 10%;
+	text-align: left;
 }
 
-.Response {
+footer {
+	margin-left: 10%;
+	margin-right: 10%;
 	text-align: left;
-	color: #dac9f4;
 }
