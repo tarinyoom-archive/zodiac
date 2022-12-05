@@ -46,8 +46,10 @@ function Horoscope() {
 
   return (
     <>
+    	<a href="/about">What is zo:diac?</a>
+
       <div>
-        <h4 id="subtitle" style={{paddingBottom:"20px"}}>{subtitle}</h4>
+        <h4 id="subtitle" style={{textAlign:"center", paddingBottom:"20px"}}>{subtitle}</h4>
         <div className=".flex-row" hidden={!showAltPrompt}>
         <TextField
             id="topic"
