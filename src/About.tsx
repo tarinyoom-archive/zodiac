@@ -6,7 +6,7 @@ function About() {
       <div className="App">
 		<a href="/">Back to zo:diac</a>
 		<h4>What is zo:diac?</h4>
-		<p>zo:diac is a horoscope reader powered by a neural network provided by <a href="https://cohere.ai/">co:here</a>.</p>
+		<p>zo:diac is a horoscope reader powered by a neural network provided by <a href="https://cohere.ai/">co:here</a>. It creates a unique horoscope for you based on your information and your topics of interest.</p>
 		<h4>What's a neural network?</h4>
 		<p>A neural network is an artificial intelligence program that learns in this case by reading text.
 			It's fed data from public sources, and learns the information within. Learn more about co:here's datasets <a href="https://docs.cohere.ai/docs/data-statement">here</a>.</p>
