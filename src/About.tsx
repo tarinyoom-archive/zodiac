@@ -1,10 +1,11 @@
 import './About.css';
+import { NavLink } from 'react-router-dom';
 
 function About() {
   
   return (
       <div className="App">
-		<a href="/">Back to zo:diac</a>
+		<NavLink to="/">Back to zo:diac</NavLink>
 		<h4>What is zo:diac?</h4>
 		<p>zo:diac is a horoscope reader powered by a neural network provided by <a href="https://cohere.ai/">co:here</a>. It creates a unique horoscope for you based on your information and your topics of interest.</p>
 		<h4>What's a neural network?</h4>

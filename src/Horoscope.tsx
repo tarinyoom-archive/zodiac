@@ -1,6 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
+import { NavLink } from "react-router-dom";
 import "./Horoscope.css";
 import {
   findZodiacSign,
@@ -54,7 +55,7 @@ function Horoscope() {
 
   return (
     <>
-    	<a href="/about">What is zo:diac?</a>
+    	<NavLink to="/about">What is zo:diac?</NavLink>
 
       <div>
         <h4 id="subtitle" style={{textAlign:"center", paddingBottom:"20px"}}>{subtitle}</h4>
@@ -73,7 +74,7 @@ function Horoscope() {
         <TextField
             id="username"
             label="Your Name"
-            style={{paddingRight: '10px'}}
+            style={{paddingLeft: '10px', paddingRight: '10px'}}
             autoComplete="off"
             onChange={(e) => {
               setName(e.target.value);
