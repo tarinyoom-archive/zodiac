@@ -1,6 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
+import Box from '@mui/material/Box';
 import { NavLink } from "react-router-dom";
 import "./Horoscope.css";
 import {
@@ -9,6 +10,7 @@ import {
   getHoroscopeAddition,
   getHoroscopeHeader,
 } from "./Controller";
+import dayjs from 'dayjs';
 import { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -21,11 +23,8 @@ function Horoscope() {
   const [showContinue, setShowContinue] = useState(false);
   const [showAltPrompt, setShowAltPrompt] = useState(false);
 
-  // name and date
-  const [name, setName] = useState<string>("");
-  const [date, setDate] = useState<Dayjs | null>(null);
-  const [userBirthDay, setUserBirthDay] = useState<number | null>(null);
-  const [userBirthMonth, setUserBirthMonth] = useState<number | null>(null);
+  const [name, setName] = useState<string | null>(localStorage.getItem("uname"));
+  const [date, setDate] = useState<Dayjs | null>(dayjs(localStorage.getItem("ubdate")));
   
   const [topic, setTopic] = useState<string>("");
 
@@ -38,7 +37,7 @@ function Horoscope() {
 
   useEffect(() => {
     if (!initialized) {
-      if (!name || name.length === 0 || !date || date.toString() === "Invalid Date" || showContinue) {
+      if (name == null || name.length === 0 || date == null || date.toString() === "Invalid Date" || showContinue) {
         setMainButtonDisabled(true);
       } else {
         setMainButtonDisabled(false);
@@ -52,47 +51,45 @@ function Horoscope() {
     }
   }, [name, date, topic, initialized, showContinue]);
 
-
   return (
     <>
     	<NavLink to="/about">What is zo:diac?</NavLink>
 
       <div>
         <h4 id="subtitle" style={{textAlign:"center", paddingBottom:"20px"}}>{subtitle}</h4>
-        <div className=".flex-row" hidden={!showAltPrompt}>
-        <TextField
-            id="topic"
-            label="Topic"
-            style={{paddingRight: '10px'}}
-            autoComplete="off"
-            onChange={(e) => {
-              setTopic(e.target.value);
-            }}
-          />
-        </div>
-        <div className=".flex-row" hidden={showAltPrompt}>
-        <TextField
-            id="username"
-            label="Your Name"
-            style={{paddingLeft: '10px', paddingRight: '10px'}}
-            autoComplete="off"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Your Birth Date"
-              value={date}
-              onChange={(newValue: Dayjs | null) => {
-                setUserBirthDay(newValue ? newValue.date() : null);
-                setUserBirthMonth(newValue ? newValue.month() : null);
-                setDate(newValue);
+        <Box>
+          <Box hidden={!showAltPrompt}> 
+            <TextField
+              id="topic"
+              label="Topic"
+              autoComplete="off"
+              onChange={(e) => {
+                setTopic(e.target.value);
               }}
-              renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider>
-        </div>
+          </Box>
+          <Box hidden={showAltPrompt}>
+            <TextField
+              id="username"
+              label="Your Name"
+              autoComplete="off"
+              defaultValue={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Your Birth Date"
+                value={date}
+                onChange={(newValue: Dayjs | null) => {
+                  setDate(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </Box>
+        </Box>
         <LoadingButton
           loading={loading}
           id="mainButton"
@@ -100,9 +97,9 @@ function Horoscope() {
           variant="contained"
           style={{marginTop:'20px'}}
           onClick={async () => {
-            if (initialized && userBirthDay != null && userBirthMonth != null) {
+            if (initialized && date != null) {
               setLoading(true);
-              const sign = findZodiacSign(userBirthDay, userBirthMonth);
+              const sign = findZodiacSign(date.day(), date.month());
               getHoroscopeAddition(horoscope, topic, sign).then((horoscope: string) => {
                 setPrelude(`Regarding ${topic}, your horoscope is as follows:`);
                 setHoroscope(horoscope);
@@ -111,11 +108,13 @@ function Horoscope() {
                 setShowContinue(true);
               })
             } else {
-              if (userBirthDay != null && userBirthMonth != null) {
+              if (date != null && name != null) {
                 setLoading(true);
-                const sign = findZodiacSign(userBirthDay, userBirthMonth);
-                const prelude = getHoroscopeHeader(name, sign);
+                const sign = findZodiacSign(date.day(), date.month());
                 getHoroscope(sign).then((horoscope: string) => {
+                  localStorage.setItem("ubdate", date.format());
+                  localStorage.setItem("uname", name);
+                  const prelude = getHoroscopeHeader(name, sign);
                   setPrelude(prelude);
                   setHoroscope(horoscope);
                   setLoading(false);
