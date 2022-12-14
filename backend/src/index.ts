@@ -4,6 +4,7 @@ export interface Env {
 	COHERE_API_KEY: string;
 	COHERE_ENDPOINT: string;
 	COHERE_VERSION: string;
+	FRONTEND_ENDPOINT: string;
 }
 
 export default {
@@ -15,8 +16,8 @@ export default {
 		if (request.method === "OPTIONS") {
 			return new Response(null, {
 				headers: {
-					"Access-Control-Allow-Origin": "*",
-					"Access-Control-Allow-Methods": "*",
+					"Access-Control-Allow-Origin": env.FRONTEND_ENDPOINT,
+					"Access-Control-Allow-Methods": "POST",
 					"Access-Control-Allow-Headers": "*",
 				  }
 			});
@@ -43,8 +44,8 @@ export default {
 
 		return new Response(JSON.stringify(response.generations[0]), {
 			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Origin": env.FRONTEND_ENDPOINT,
+				"Access-Control-Allow-Methods": "POST",
 				"Access-Control-Allow-Headers": "*"
 			}
 		});

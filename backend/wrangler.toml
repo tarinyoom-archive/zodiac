@@ -5,3 +5,4 @@ compatibility_date = "2022-12-03"
 [vars]
 COHERE_ENDPOINT = "https://api.cohere.ai/generate"
 COHERE_VERSION = "2021-11-08"
+FRONTEND_ENDPOINT = "https://zodiac.tarinyoom.io"
