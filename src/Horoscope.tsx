@@ -81,7 +81,7 @@ function Horoscope() {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Your Birth Date"
-                value={date == null ? undefined : null}
+                value={date == null ? undefined : date}
                 onChange={(newValue: Dayjs | null) => {
                   setDate(newValue);
                 }}
